@@ -5,17 +5,31 @@ function App() {
 
   const addToCart = (product) => {
     const productIsAlreadyAdd = addedProduct.some(p => p.name === product.name);
+
     if (productIsAlreadyAdd) {
-      return;
+      setAddedProduct(prev =>
+        prev.map(item => {
+          if (item.name === product.name) {
+            return {
+              ...item,
+              quantity: item.quantity + 1
+            }
+          } else {
+            return item
+          }
+        })
+      );
+    } else {
+      setAddedProduct(curr => [
+        ...curr,
+        {
+          ...product,
+          quantity: 1
+        }
+      ]);
     }
-    setAddedProduct(curr => [
-      ...curr,
-      {
-        ...product,
-        quantity: 1
-      }
-    ]);
   };
+
 
   const products = [
     { name: 'Mela', price: 0.5 },
